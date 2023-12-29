@@ -9,8 +9,9 @@ import { COLORS, SIZES } from '../../../constants'
 
 const Popularjobs = () => {
   const router = useRouter();
-  const isLoading = false;
-  const error = false;
+
+  const { data, isLoading, error } = useFetch('search', { query: 'react developer', num_pages: 1 });
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -28,7 +29,7 @@ const Popularjobs = () => {
           <FlatList
             data={[1,2,3,4,5]}
             renderItem={({ item }) => (
-              <PopularJobCard item={item} />
+              <PopularJobCard key={item} item={item} />
             )}
             keyExtractor={item => item?.job_id}
             contentContainerStyle={{ columnGap: SIZES.medium }}
