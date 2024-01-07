@@ -15,12 +15,13 @@ const JobDetails = () => {
     const [ refreshing, setRefreshing ] = useState(false);
     const [ activeTab, setActiveTab ] = useState(tabs[0]);
 
-    const onRefresh = () => {
-
-    }
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        reFetch();
+        setRefreshing(false);
+    });
 
     const displayTabContent = (activeTab) => {
-        console.log(data[0].job_highlights);
         switch(activeTab) {
             case "About":
                 return <JobAbout
@@ -44,7 +45,7 @@ const JobDetails = () => {
     }
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
+        <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
             <Stack.Screen
                 options={{
                     headerStyle: { backgroundColor: COLORS.lightWhite },
@@ -68,7 +69,7 @@ const JobDetails = () => {
                 }}
             />
             <>
-                <SafeAreaView
+                <ScrollView
                     showsVerticalScrollIndicator={false}
                     refreshControl={<RefreshControl
                     refreshing={refreshing}
@@ -100,9 +101,10 @@ const JobDetails = () => {
                                 </View>
                             )
                         }
-                </SafeAreaView>
+                </ScrollView>
+                <JobFooter url={data[0]?.job_google_link ?? 'https://careers.google.com/jobs/results'} />
             </>
-        </ScrollView>
+        </SafeAreaView>
     );
 }
 
